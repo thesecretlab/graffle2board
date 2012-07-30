@@ -38,6 +38,11 @@ end
 
 graffle.windows[0].document.canvases[0].layers[0].shapes.select do |s|  
   
+  if s.text.get.to_s == "Board Settings":
+    $board_settings = s.userData
+    next
+  end
+  
   # Set the identifying tag for each node to its text.
   # If it doesn't have text, generate a random identifier.
   
@@ -77,5 +82,5 @@ end
 
 # We're all done; prepare the final output and print it as JSON
 
-json_rep = {:nodes => $shape_list, :links => $line_list}
+json_rep = {:nodes => $shape_list, :links => $line_list}.merge($board_settings)
 puts JSON.pretty_generate json_rep
