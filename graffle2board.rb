@@ -19,6 +19,15 @@ graffle = SBApplication.applicationWithBundleIdentifier_("com.omnigroup.OmniGraf
 
 $shape_list = []
 $line_list = []
+$board_settings = {}
+
+def center_for_shape(s)
+  x = s.origin.x.to_i + s.size.x.to_i / 2
+  y = s.origin.y.to_i + s.size.y.to_i / 2
+  
+  {:x => x, :y => y}  
+end
+
 
 # First, iterate over all nodes, generating tags for them all
 # and creating the hash that represents them
@@ -41,7 +50,9 @@ graffle.windows[0].document.canvases[0].layers[0].shapes.select do |s|
   
   # Now generate the hash for it, merging in the user data
   
-  $shape_list << {:positionX => s.origin.x.to_i, :positionY => s.origin.y.to_i, :id => "Node-" + s.tag}.merge(s.userData)
+  center = center_for_shape s
+  
+  $shape_list << {:positionX => center[:x], :positionY => center[:y], :id => "Node-" + s.tag}.merge(s.userData)
   
 end
 
